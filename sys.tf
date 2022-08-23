@@ -65,4 +65,5 @@ resource "aws_route_table" "sysops_public_rt" {
 resource "aws_route_table_association" "_sysops_public_1_rt_a" {
   subnet_id      = aws_subnet.sysops_public_subnet.id
   route_table_id = aws_route_table.sysops_public_rt.id
-}#https://sammeechward.com/terraform-vpc-subnets-ec2-and-more/
+}
+#https://sammeechward.com/terraform-vpc-subnets-ec2-and-more/
