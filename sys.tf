@@ -61,3 +61,8 @@ resource "aws_route_table" "sysops_public_rt" {
     Name = "SysOps Public Route Table"
   }
 }
+#Resource: aws_route_table_association
+resource "aws_route_table_association" "_sysops_public_1_rt_a" {
+  subnet_id      = aws_subnet.sysops_public_subnet.id
+  route_table_id = aws_route_table.sysops_public_rt.id
+}
