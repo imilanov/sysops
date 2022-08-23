@@ -41,3 +41,23 @@ resource "aws_internet_gateway" "sysops_igw" {
     Name = "SysOps Internet Gateway"
   }
 }
+
+
+#Create a route table for a public subnet
+resource "aws_route_table" "sysops_public_rt" {
+  vpc_id = aws_vpc.sysops_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.sysops_igw.id
+  }
+
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id      = aws_internet_gateway.sysops_igw.id
+  }
+
+  tags = {
+    Name = "SysOps Public Route Table"
+  }
+}
