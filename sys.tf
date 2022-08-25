@@ -1,3 +1,4 @@
+#https://sammeechward.com/terraform-vpc-subnets-ec2-and-more/
 provider "aws" {
   profile = "default"
   region  = "us-east-1"
