@@ -17,7 +17,7 @@ resource "aws_vpc" "sysops_vpc" {
 resource "aws_subnet" "sysops_public_subnet" {
   vpc_id            = aws_vpc.sysops_vpc.id
   cidr_block        = "10.0.1.0/24"
-  availability_zone = "1a"
+  availability_zone = "us-east-1a"
 
   tags = {
     Name = "SysOps Public Subnet"
@@ -27,7 +27,7 @@ resource "aws_subnet" "sysops_public_subnet" {
 resource "aws_subnet" "sysops_private_subnet" {
   vpc_id            = aws_vpc.sysops_vpc.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = "1a"
+  availability_zone = "us-east-1b"
 
   tags = {
     Name = "SysOps Private Subnet"
@@ -71,7 +71,7 @@ resource "aws_route_table_association" "_sysops_public_1_rt_a" {
 #Create security groups to allow specific traffic
 resource "aws_security_group" "sysops_web_sg" {
   name   = "SysOps HTTP and SSH"
-  vpc_id = aws_vpc.some_custom_vpc.id
+  vpc_id = aws_vpc.sysops_vpc.id
 
   ingress {
     from_port   = 80
@@ -97,15 +97,15 @@ resource "aws_security_group" "sysops_web_sg" {
 
 #Instance EC2
 resource "aws_instance" "sysops_web_instance" {
-  ami = "ami-05fa00d4c63e32376"
+  ami           = "ami-05fa00d4c63e32376"
   instance_type = "t2.micro"
-  key_name = "sysops"
-  
-  subnet_id = aws_subnet.sysops_public_subnet.id
-  vpc_security_group_ids = [aws_security_group.sysops_web_sg.id]
+  key_name      = "sysops"
+
+  subnet_id                   = aws_subnet.sysops_public_subnet.id
+  vpc_security_group_ids      = [aws_security_group.sysops_web_sg.id]
   associate_public_ip_address = true
-  
-# Web server
+
+  # Web server
   user_data = <<-EOF
   #!/bin/bash -ex
 
